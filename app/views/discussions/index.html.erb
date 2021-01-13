@@ -1,0 +1,6 @@
+<% @discussions.each do |discussion|%>
+<div class='container card' style="max-width: 500px;">
+<h3><%= link_to(discussion.title, discussion_path(discussion.id) )%></h3>
+<p> <%= discussion.description %></p>
+</div>
+<% end %>

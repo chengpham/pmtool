@@ -1,0 +1,6 @@
+<% @tasks.each do |task|%>
+<div class='container card' style="max-width: 500px;">
+<h3><%= link_to(task.title, task_path(task.id) )%></h3>
+<p> <%= task.due_date %></p>
+</div>
+<% end %>

@@ -1,0 +1,18 @@
+
+<div class="container card" style="max-width: 500px;">
+    <h3><%= @project.title%> </h3>
+    <p><%= @project.description %></p>
+    <p> <%= @project.due_date %></p>
+    <div>
+    <small>
+    <p>Last Edited : <%= time_ago_in_words(@project.updated_at)  %> </p>
+    </small>
+    </div>
+    <small>
+        <%= link_to "Edit", edit_project_path(@project.id), :class=>'btn btn-outline-success' %> 
+        <%= link_to "Delete", project_path, method: :delete,data:{confirm: "Are you sure ?"}, :class=>'btn btn-outline-danger' %>
+    </small>
+    
+    </div>
+
+    
