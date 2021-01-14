@@ -39,29 +39,29 @@
     <%= form_with(model: [@project, @task], local: true) do |f| %>
     <div class='d-flex'>
         <%= f.text_field :title, placeholder: :task, class: "form-control col" %>
-        <%= f.date_field :due_date, class: "form-control col", style: "max-width: 165px" %>
-        <%= f.submit "Add Task", class: 'btn btn-outline-success'%>
+        <%= f.date_field :due_date, class: "form-control col", style: "max-width: 170px"%>
+        <%= f.submit class: 'btn btn-outline-success'%>
     </div><br>
     <% end %>
     <%= form_with(model: [@project, @discussion], local: true) do |f| %>
     <div>
         <%= f.text_field :title, placeholder: :title, class: "form-control" %>
         <%= f.text_area :description, placeholder: :description, class: "form-control" %>
-        <%= f.submit "Add Discussion", class: 'btn btn-outline-success'%>
+        <%= f.submit class: 'btn btn-outline-success'%>
     </div><br>
     <% end %>
-    <%#= link_to "Add Discussion", project_discussion_path, :class=>'btn btn-outline-secondary' %>
     <% @discussions.each do |discussion| %>
     <hr>
     <h5><%= discussion.title %></h5>
-    <p> <%= discussion.description %></p>
     <small>
-    <%= link_to "Delete", project_discussion_path(@project,discussion), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red"  %>
-    </small><br>
+        <%= link_to "Delete", project_discussion_path(@project,discussion), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red"  %>
+    </small>
+    <p> <%= discussion.description %></p>
+    
     <%= form_with(model: [@project, discussion, @comment], local: true) do |f| %>
     <div class='d-flex'>
     <%= f.text_field :body, placeholder: :add_comment, class: "form-control col" %>
-    <%= f.submit "Add Comment", class: 'btn btn-outline-success'%>
+    <%= f.submit class: 'btn btn-outline-success'%>
     </div><br>
     <% end %>
     <% discussion.comments.each do |c| %>
