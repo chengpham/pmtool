@@ -4,6 +4,13 @@ class ProjectsController < ApplicationController
         @projects=Project.all.order(created_at: :desc)
     end
     def show
+        @project_id=params[:id]
+        @task=Task.new
+        @discussion=Discussion.new
+        @comment=Comment.new
+        @discussions=@project.discussions.order(created_at: :desc)
+        @task_done=@project.tasks.where(done: true)
+        @task_undone=@project.tasks.where(done: false)
     end
     def destroy
         @project.destroy

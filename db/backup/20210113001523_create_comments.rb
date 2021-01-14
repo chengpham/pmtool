@@ -1,12 +1,11 @@
-class CreateTasks < ActiveRecord::Migration[6.1]
-  def change
-    create_table :tasks do |t|
-      t.string :title
-      t.datetime :due_date
-      t.timestamps
-    end
-  end
-end
+# class CreateComments < ActiveRecord::Migration[6.1]
+#   def change
+#     create_table :comments do |t|
+#       t.text :body
+#       t.timestamps
+#     end
+#   end
+# end
 
 =begin
 -   `:binary`

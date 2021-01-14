@@ -1,6 +1,0 @@
-<% @comments.each do |comment|%>
-<div class='container card' style="max-width: 500px;">
-<h3><%= link_to(comment.body, comment_path(comment.id) )%></h3>
-<p> <%= comment.body %></p>
-</div>
-<% end %>

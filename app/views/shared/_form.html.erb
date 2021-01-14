@@ -1,5 +1,5 @@
 
-<div class="container" style="max-width: 500px;">
+<div class="container" style="max-width: 700px;">
     <%= form_with model:@project, :class=>"form-group", local: true do |form| %>
     <% if @project.errors.present? %>
     <%= @project.errors.full_messages.join(', ')%>
