@@ -3,7 +3,7 @@
     <h3><%= @project.title%> </h3>
     <p><%= @project.description %></p>
     <p> <%= @project.due_date %></p>
-    <small>
+    <small style="font-size:0.55em">
     <p>Last Edited : <%= time_ago_in_words(@project.updated_at)  %> </p>
     <%= link_to "Edit", edit_project_path(@project.id) %> |
     <%= link_to "Delete", project_path, method: :delete,data:{confirm: "Are you sure ?"}, style: "color:red"  %>
@@ -14,8 +14,8 @@
             <% @task_done.each do |done| %>
             <li>
             <span><%= done.title %> - due in: <%= time_ago_in_words(done.due_date) %>
-            <small>
-            • <%= link_to "Delete", project_task_path(@project,done), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>   
+            <small style="font-size:0.55em">
+            <%= link_to "Delete", project_task_path(@project,done), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>   
             </small>
             </li>  
         </span>
@@ -26,7 +26,7 @@
             <% @task_undone.each do |undone| %>
             <li>
             <span><%= undone.title %> - due in: <%= time_ago_in_words(undone.due_date) %>
-            <small>
+            <small style="font-size:0.55em">
             <%= link_to "Complete", project_task_path(@project,undone), method: :patch %> 
             | <%= link_to "Delete", project_task_path(@project,undone), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>
             </small>
@@ -51,22 +51,22 @@
     </div><br>
     <% end %>
     <% @discussions.each do |discussion| %>
-    <hr>
+    <hr><span class="d-flex">
     <h5><%= discussion.title %></h5>
-    <small>
+    <small style="font-size:0.55em">
         <%= link_to "Delete", project_discussion_path(@project,discussion), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red"  %>
-    </small>
+    </small></span>
     <p> <%= discussion.description %></p>
     
     <%= form_with(model: [@project, discussion, @comment], local: true) do |f| %>
     <div class='d-flex'>
-    <%= f.text_field :body, placeholder: :add_comment, class: "form-control col" %>
+    <%= f.text_field :body, placeholder: :comments, class: "form-control col" %>
     <%= f.submit class: 'btn btn-outline-success'%>
     </div><br>
     <% end %>
     <% discussion.comments.each do |c| %>
     <li><span><%= c.body %> 
-    <small>
+    <small style="font-size:0.55em">
         <%= link_to "Delete", project_discussion_comment_path(@project,discussion,c), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red" %>
     </small></span></li><br>
     <% end %>
