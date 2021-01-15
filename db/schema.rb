@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_13_001426) do
+ActiveRecord::Schema.define(version: 2021_01_14_225917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,10 @@ ActiveRecord::Schema.define(version: 2021_01_13_001426) do
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
     t.index ["discussion_id"], name: "index_comments_on_discussion_id"
     t.index ["project_id"], name: "index_comments_on_project_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "discussions", force: :cascade do |t|
@@ -31,7 +33,9 @@ ActiveRecord::Schema.define(version: 2021_01_13_001426) do
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
     t.index ["project_id"], name: "index_discussions_on_project_id"
+    t.index ["user_id"], name: "index_discussions_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -40,6 +44,8 @@ ActiveRecord::Schema.define(version: 2021_01_13_001426) do
     t.date "due_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -49,11 +55,27 @@ ActiveRecord::Schema.define(version: 2021_01_13_001426) do
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "comments", "discussions"
   add_foreign_key "comments", "projects"
+  add_foreign_key "comments", "users"
   add_foreign_key "discussions", "projects"
+  add_foreign_key "discussions", "users"
+  add_foreign_key "projects", "users"
   add_foreign_key "tasks", "projects"
+  add_foreign_key "tasks", "users"
 end

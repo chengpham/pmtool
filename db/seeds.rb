@@ -3,6 +3,27 @@ Comment.delete_all()
 Discussion.delete_all()
 Project.delete_all()
 Task.delete_all()
+User.delete_all
+
+PASSWORD='supersecret'
+super_user=User.create(
+    first_name: 'Jon',
+    last_name: 'Snow',
+    email: 'js@interfell.gov',
+    password: PASSWORD
+)
+10.times do 
+  first_name= Faker::Name.first_name 
+  last_name= Faker::Name.last_name 
+  User.create(
+      first_name: first_name,
+      last_name: last_name,
+      email: "#{first_name}.#{last_name}@example.com",
+      password: PASSWORD,
+      created_at: Faker::Date.backward(days: 365)
+  )
+end
+users=User.all
 
 50.times do
   p=Project.create(
@@ -10,28 +31,23 @@ Task.delete_all()
     description: Faker::Books::Dune.quote,
     due_date: Faker::Date.forward(days: 23),
     created_at: Faker::Date.backward(days: 14),
+    user: users.sample
   )
   if p.valid?
-    # p.tasks = rand(0..15).times.map do 
-    #   Task.create(
-    #     title: Faker::TvShows::HowIMetYourMother.catch_phrase,
-    #     due_date: Faker::Date.forward(days: 23),
-    #     done: [true,false].sample,
-    #     created_at: Faker::Date.backward(days: 14),
-    #   )
-    # end
     p.discussions = rand(1..15).times.map do
       d=Discussion.create(
         title: Faker::TvShows::SouthPark.character,
         description: Faker::TvShows::SouthPark.quote,
-        created_at: Faker::Date.backward(days: 14)
+        created_at: Faker::Date.backward(days: 14),
+        user: users.sample
       )
     end
     p.comments = rand(0..15).times.map do
       Comment.create(
         body: Faker::Hipster.paragraph,
         discussion: p.discussions.sample,
-        created_at: Faker::Date.backward(days: 14)
+        created_at: Faker::Date.backward(days: 14),
+        user: users.sample
       )
     end
   end
@@ -44,6 +60,7 @@ end
     project: Project.all.sample,
     done: [true,false].sample,
     created_at: Faker::Date.backward(days: 14),
+    user: users.sample
   )
 end
 

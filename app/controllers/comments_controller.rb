@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
         @comment = Comment.new comment_params
         @comment.project = @project
         @comment.discussion = @discussion
+        @comment.user = current_user
         @comment.save
         redirect_to project_path(@project)
     end

@@ -3,6 +3,7 @@
     <h3><%= @project.title%> </h3>
     <p><%= @project.description %></p>
     <p> <%= @project.due_date %></p>
+    <small> Created by: <%= @project.user&.full_name || "DELETED" %> </small>
     <small style="font-size:0.55em">
     <p>Last Edited : <%= time_ago_in_words(@project.updated_at)  %> </p>
     <%= link_to "Edit", edit_project_path(@project.id) %> |
@@ -13,8 +14,9 @@
             <strong>-- Done --</strong>
             <% @task_done.each do |done| %>
             <li>
-            <span><%= done.title %> - due in: <%= time_ago_in_words(done.due_date) %>
+            <span><%= done.title %>
             <small style="font-size:0.55em">
+            - due in: <%= time_ago_in_words(done.due_date) %>
             <%= link_to "Delete", project_task_path(@project,done), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>   
             </small>
             </li>  
@@ -25,8 +27,9 @@
             <strong>-- Not Done --</strong>
             <% @task_undone.each do |undone| %>
             <li>
-            <span><%= undone.title %> - due in: <%= time_ago_in_words(undone.due_date) %>
+            <span><%= undone.title %>
             <small style="font-size:0.55em">
+            - due in: <%= time_ago_in_words(undone.due_date) %>
             <%= link_to "Complete", project_task_path(@project,undone), method: :patch %> 
             | <%= link_to "Delete", project_task_path(@project,undone), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>
             </small>
@@ -67,6 +70,7 @@
     <% discussion.comments.each do |c| %>
     <li><span><%= c.body %> 
     <small style="font-size:0.55em">
+        comment by <%= c.user&.full_name || "DELETED" %>
         <%= link_to "Delete", project_discussion_comment_path(@project,discussion,c), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red" %>
     </small></span></li><br>
     <% end %>

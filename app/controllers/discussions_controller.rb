@@ -3,6 +3,7 @@ class DiscussionsController < ApplicationController
     def create
         @discussion = Discussion.new discussion_params
         @discussion.project = @project
+        @discussion.user = current_user
         @discussion.save
         redirect_to project_path(@project)
     end
