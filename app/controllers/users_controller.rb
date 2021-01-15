@@ -13,12 +13,10 @@ class UsersController < ApplicationController
     end
     def update
         @user=current_user
-        if @user&.authenticate(params[:user][:current_password])
-            # if @user.password==user_params[:password]
-            #     redirect_to edit_user_path, notice: "Password cannot be the same"
-            # end
-            
-            
+        if params[:user][:password] == params[:user][:current_password]
+            flash[:notice] = "Can not use current password"
+            render :edit
+        elsif @user&.authenticate(params[:user][:current_password])
             if @user.update user_params
                 redirect_to edit_user_path, notice: "Profile successfully changed"
             else
