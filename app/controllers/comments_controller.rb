@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+    before_action :authenticate_user!
     before_action :find_project, only:[:create, :destroy]
     before_action :find_discussion, only:[:create, :destroy]
     def create
