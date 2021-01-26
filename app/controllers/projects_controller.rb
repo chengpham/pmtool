@@ -11,9 +11,11 @@ class ProjectsController < ApplicationController
         @discussions=@project.discussions.order(created_at: :desc)
         @task_done=@project.tasks.where(done: true)
         @task_undone=@project.tasks.where(done: false)
+        @favourite = @project.favourites.find_by_user_id current_user if user_signed_in?
     end
     def destroy
         @project.destroy
+        flash[:danger]= 'deleted project'
         redirect_to projects_path
     end
     def new

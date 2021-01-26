@@ -8,7 +8,21 @@
     <p>Last Edited : <%= time_ago_in_words(@project.updated_at)  %> </p>
     <%= link_to "Edit", edit_project_path(@project.id) %> |
     <%= link_to "Delete", project_path, method: :delete,data:{confirm: "Are you sure ?"}, style: "color:red"  %>
-    </small><hr>
+    </small>
+    <% if user_signed_in?  && can?(:favourite, @project)%>
+          <% if @favourite %>
+          <%= link_to favourite_path(@favourite), method: :delete do %>
+                <i class="fas fa-star"></i>
+            <% end %>
+            <%#= link_to 'Unfavourite', favourite_path(@favourite), method: :delete %>
+          <% else %>
+            <%= link_to project_favourites_path(@project), method: :post do %>
+                <i class="far fa-star"></i>
+            <% end %>
+            <%#= link_to 'Favourite', project_favourites_path(@project), method: :post %>
+          <% end %>
+      <% end %>
+    <hr>
     <div class="container-fluid d-flex">
         <div class='col'>
             <strong>-- Done --</strong>

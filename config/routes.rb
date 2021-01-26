@@ -8,8 +8,10 @@ Rails.application.routes.draw do
     resources :discussions, only:[:create, :destroy] do
       resources :comments, only:[:create, :destroy]
     end
+    resources :favourites, shallow: :true, only: [:create, :destroy]
   end
+  resources :favourites, only: [:index]
   resources :users, only:[:new, :create, :edit, :update, :destroy]
-
   resource :session, only:[:new, :create, :destroy]
+  # resources :projects, only: [:new, :create, :show, :index, :edit, :update, :destroy]
 end

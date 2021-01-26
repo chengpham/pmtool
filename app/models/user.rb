@@ -4,6 +4,9 @@ class User < ApplicationRecord
     has_many :tasks, dependent: :nullify
     has_many :discussions, dependent: :nullify
     has_many :comments, dependent: :nullify
+    has_many :favourites, dependent: :destroy
+    has_many :favoured_project, through: :favourites, source: :project
+
     attr_accessor :current_password, :new_password, :new_password_confirmation
     def full_name
         "#{first_name} #{last_name}"
