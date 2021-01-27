@@ -31,6 +31,8 @@
             labelField:'name', //Coulmn name in db
             valueField:'name',//Coulmn name in db
             searchField:'name',//Coulmn name in db
+            placeholder: "Search...",
+            allowClear: true,
             options: <%= Tag.select(:name).to_json(except:[:id]).html_safe %>,
             create :function(input){
                 return{

@@ -12,8 +12,9 @@
 
   <body>
     <%= render "shared/navbar" %>
-    <%= flash[:notice] || flash[:alert] %>
-    <div class="container">
+    <%#= flash[:notice] || flash[:alert] %>
+    <%= render 'shared/alerts'%>
+    <div class="container" style="max-width: 992px;">
       <br>
     <%= yield %>
     </div>
