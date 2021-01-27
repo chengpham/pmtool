@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get("/about", {to: "about#index"})
 
   resources :projects do
+    resources :members, only: [:create, :destroy]
     resources :tasks, only:[:create, :update, :destroy]
     resources :discussions, only:[:create, :destroy] do
       resources :comments, only:[:create, :destroy]

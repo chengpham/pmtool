@@ -17,6 +17,7 @@ class ProjectsController < ApplicationController
         @task=Task.new
         @discussion=Discussion.new
         @comment=Comment.new
+        @member=Member.new
         @discussions=@project.discussions.order(created_at: :desc)
         @task_done=@project.tasks.where(done: true)
         @task_undone=@project.tasks.where(done: false)

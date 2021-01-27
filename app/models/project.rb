@@ -9,6 +9,9 @@ class Project < ApplicationRecord
     
     has_many :taggings, dependent: :destroy
     has_many :tags, through: :taggings
+
+    has_many :members, dependent: :destroy
+    has_many :users, through: :members
     
     validates :title, presence: {message: 'must be provided'},uniqueness: true
     validates :due_date, presence: {message: 'must be provided'}
@@ -20,9 +23,12 @@ class Project < ApplicationRecord
     def tag_names=(rhs)
         self.tags=rhs.strip.split(/\s*,\s*/).map do|tag_name|
             Tag.find_or_initialize_by(name: tag_name)
-            # it will try to find the 'tag_name' in a tag table
-            # if a tag with 'tag_name' is not found ,
-            #  it will call Tag.new(name: tag_name)
+        end
+    end
+    def members_name=(search)
+        self.members=search.strip.split(/\s*,\s*/).map do|member|
+            # User.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{member}","%#{member}").first
+            User.find_or_initialize_by(first_name: member)
         end
     end
 

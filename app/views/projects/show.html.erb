@@ -3,6 +3,19 @@
     <h3><%= @project.title%> </h3>
     <p><%= @project.description %></p>
     <p> <%= @project.due_date %></p>
+    <div>
+        Members: <% @project.members.map do |member| %>
+            <span><%= member.user.full_name %></span>
+        <% end %>
+    </div>
+     
+
+    <%= form_with(model: [@project, @member], local: true) do |f| %>
+    <div>
+    <%= f.text_field :members_name %>
+    <%= f.submit class: 'btn btn-outline-success' %>
+    </div><br>
+    <% end %>
     <div>Tags: 
         <% @project.tags.each do |tag| %>
             <%= link_to(tag.name, tag_path(tag.id) ) %>
@@ -97,7 +110,23 @@
     <br>
 </div><br><br>
     
-
+<script>
+    $(function(){
+        $('#member_members_name').selectize({
+            delimeter:',',
+            persist: false,
+            labelField:'first_name', //Coulmn name in db
+            valueField:'first_name',//Coulmn name in db
+            searchField:'first_name',//Coulmn name in db
+            options: <%= Tag.select(:name).to_json(except:[:id]).html_safe %>,
+            create :function(input){
+                return{
+                    name:input
+                }
+            }
+        })
+    })
+</script>
   
     
     
