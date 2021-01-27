@@ -29,14 +29,14 @@
             delimeter:',',
             persist: false,
             labelField:'name', //Coulmn name in db
-            valueField:'name', //Coulmn name in db
-            searchField:'name', //Coulmn name in db
+            valueField:'name',//Coulmn name in db
+            searchField:'name',//Coulmn name in db
             options: <%= Tag.select(:name).to_json(except:[:id]).html_safe %>,
             create :function(input){
                 return{
                     name:input
                 }
             }
-        })
+        }).attr("style", "width: 100%;")
     })
 </script>
