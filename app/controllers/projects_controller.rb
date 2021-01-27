@@ -1,7 +1,16 @@
+# [PM Tool] Members
+# Add the ability to add one or more members (users in the system) to your projects. List all the members of the project in the display page.
+
 class ProjectsController < ApplicationController
     before_action :find_project, only:[:show, :edit, :update, :destroy]
     def index
-        @projects=Project.all.order(created_at: :desc)
+        if params[:tag]
+            @tag=Tag.find_or_initialize_by(name: params[:tag])
+            @projects=@tag.projects.order(created_at: :desc)
+        else
+            @projects=Project.all.order(created_at: :desc)
+        end
+        
     end
     def show
         @project_id=params[:id]
@@ -44,6 +53,6 @@ class ProjectsController < ApplicationController
         @project=Project.find params[:id] 
     end
     def project_params
-        params.require(:project).permit(:title, :description, :due_date)
+        params.require(:project).permit(:title, :description, :due_date, :tag_names)
     end
 end

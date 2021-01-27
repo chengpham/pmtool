@@ -1,4 +1,5 @@
-
+Tagging.delete_all
+Tag.delete_all
 Comment.delete_all()
 Discussion.delete_all()
 Project.delete_all()
@@ -24,7 +25,12 @@ super_user=User.create(
   )
 end
 users=User.all
-
+20.times do 
+  Tag.create(
+      name:Faker::Vehicle.make
+  )
+end
+tags=Tag.all
 50.times do
   p=Project.create(
     title: Faker::Books::Dune.character,
@@ -50,6 +56,7 @@ users=User.all
         user: users.sample
       )
     end
+    p.tags= tags.shuffle.slice(0,rand(tags.count))
   end
 end
 
@@ -64,7 +71,10 @@ end
   )
 end
 
-puts Project.count
-puts Task.count
-puts Discussion.count
-puts Comment.count
+puts "Project Count #{Project.count}"
+puts "Task Count #{Task.count}"
+puts "Discussion Count #{Discussion.count}"
+puts "Comment Count #{Comment.count}"
+puts "User Count #{User.count}"
+puts "Tags Count: #{Tag.count}"
+puts "Login with  #{super_user.email} and password:#{PASSWORD}."

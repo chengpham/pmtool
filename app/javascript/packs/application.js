@@ -10,6 +10,11 @@ import "channels"
 Rails.start()
 ActiveStorage.start()
 
+import './selectize'
+
+window.jQuery=$;
+window.$=$;
+
 import "bootstrap";
 import '../stylesheets/application'
 // import "@fortawesome/fontawesome-free/js/all";
