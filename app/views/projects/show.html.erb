@@ -8,7 +8,7 @@
             <span><%= member.user.full_name %></span>
         <% end %>
     </div>
-    <% if user_signed_in?  && can?(:favourite, @project)%>
+    <% if user_signed_in?  && can?(:crud, @project) %>
         <%= form_with(model: [@project, @member], local: true) do |f| %>
         <div>
         <%= f.text_field :members_name %>
