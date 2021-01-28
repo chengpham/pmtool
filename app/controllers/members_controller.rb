@@ -3,8 +3,13 @@ class MembersController < ApplicationController
 
     def create
         puts "Members:---------------------#{member_params[:members_name]}"
-        # user = User.search_by_name(member_params[:users])
-        # puts "User:---------------------#{user.id}"
+        puts "project:---------------------#{params[:project_id]}"
+        member_params[:members_name].split(',').each do |email|
+            user=User.find_by_email(email)
+            Member.create(project_id: params[:project_id], user_id: user.id)
+        end
+        # user = User.where(member_params[:users])
+        # puts "User:---------------------#{user}"
         # user.each do |u|
         #     puts "User:---------------------#{u}"
         # end
@@ -12,7 +17,7 @@ class MembersController < ApplicationController
         # @member.project = @project
         # @member.user = current_user
         # @member.save
-        redirect_to project_path(26), notice: "member added"
+        redirect_to project_path(params[:project_id]), notice: "member added"
     end
     def destroy
         @member = Member.find params[:id]

@@ -8,13 +8,13 @@
             <span><%= member.user.full_name %></span>
         <% end %>
     </div>
-     
-
-    <%= form_with(model: [@project, @member], local: true) do |f| %>
-    <div>
-    <%= f.text_field :members_name %>
-    <%= f.submit class: 'btn btn-outline-success' %>
-    </div><br>
+    <% if user_signed_in?  && can?(:favourite, @project)%>
+        <%= form_with(model: [@project, @member], local: true) do |f| %>
+        <div>
+        <%= f.text_field :members_name %>
+        <%= f.submit class: 'btn btn-outline-success' %>
+        </div><br>
+        <% end %>
     <% end %>
     <div>Tags: 
         <% @project.tags.each do |tag| %>
@@ -115,13 +115,13 @@
         $('#member_members_name').selectize({
             delimeter:',',
             persist: false,
-            labelField:'first_name', //Coulmn name in db
-            valueField:'first_name',//Coulmn name in db
-            searchField:'first_name',//Coulmn name in db
-            options: <%= Tag.select(:name).to_json(except:[:id]).html_safe %>,
+            labelField:'email', //Coulmn name in db
+            valueField:'email',//Coulmn name in db
+            searchField:'email',//Coulmn name in db
+            options: <%= User.select(:email).to_json(except:[:id]).html_safe %>,
             create :function(input){
                 return{
-                    name:input
+                    email:input
                 }
             }
         })
