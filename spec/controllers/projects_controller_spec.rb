@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-    def user_create
-
-    end
     describe '#new' do
         it 'render the new template' do
             get(:new)

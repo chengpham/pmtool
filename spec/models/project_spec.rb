@@ -8,29 +8,24 @@ require 'rails_helper'
 RSpec.describe Project, type: :model do
   describe "validates" do
     describe "title" do
-    it "requires a title" do
-      project = FactoryBot.build(:project, title: nil)
-      project.valid?
-      expect(project.errors.messages).to(have_key(:title))
+      it "requires a title" do
+        project = FactoryBot.build(:project, title: nil)
+        project.valid?
+        expect(project.errors.messages).to(have_key(:title))
+      end
+      it 'title is unique' do
+        persisted_project= FactoryBot.create(:project)
+        project=FactoryBot.build(:project, title: persisted_project.title)
+        project.valid?
+        expect(project.errors.messages).to(have_key(:title))
+      end
     end
-    it 'title is unique' do
-      persisted_project= FactoryBot.create(:project)
-      project=FactoryBot.build(:project, title: persisted_project.title)
-      project.valid?
-
-      expect(project.errors.messages).to(have_key(:title))
+    describe 'due_date' do  
+      it 'requires due_date greater than today' do
+        project=FactoryBot.build(:project, due_date: nil)
+        project.valid?
+        expect(project.errors.messages).to(have_key(:due_date))
+      end
     end
   end
-  describe 'due_date' do  
-    it 'requires due_date greater than today' do
-      project=FactoryBot.build(:project, due_date: nil)
-      project.valid?
-      expect(project.errors.messages).to(have_key(:due_date))
-    end
-  end
-
-
- 
-  end
-  
 end
