@@ -34,5 +34,6 @@ module Pmtool
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.assets.precompile += ['admin.js', 'admin.css', 'swfObject.js']
   end
 end
