@@ -84,6 +84,17 @@ test:
 #
 production:
   <<: *default
-  database: pmtool_production
-  username: pmtool
-  password: <%= ENV['PMTOOL_DATABASE_PASSWORD'] %>
+  # database: kavaglam_production
+  # username: kavaglam
+  # password: <%= ENV['KAVAGLAM_DATABASE_PASSWORD'] %>
+
+  # database: <%= ENV['RDS_DATABASE'] %>
+  # username: <%= ENV['RDS_USERNAME'] %>
+  # password: <%= ENV['RDS_PASSWORD'] %>
+  # host: <%= ENV['RDS_HOST'] %>
+
+  database: database-1
+  username: postgres
+  password: password
+  host: database-1.cjrcglnvrlen.ca-central-1.rds.amazonaws.com
+  post: 5432
