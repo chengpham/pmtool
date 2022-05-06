@@ -1,0 +1,42 @@
+
+<div class="container" style="max-width: 700px;">
+    <%= form_with model:@project, :class=>"form-group", local: true do |form| %>
+    <% if @project.errors.present? %>
+    <%= @project.errors.full_messages.join(', ')%>
+    <% end %>
+        <%= label_tag :title %>
+        <div class="input-group">
+            <%= form.text_field :title, :class=>'form-control', :required=>true %>
+         </div>
+        <%= label_tag :description %>
+        <div class="input-group">
+            <%= form.text_area :description, cols:50 , rows:5,  :class=>'form-control', :required=>true %>
+         </div>
+        <%= label_tag :due_date %>
+        <div class="input-group">
+            <%= form.text_field :due_date, :class=>'form-control' %>
+         </div>
+         <%= form.label :tag_names  %>
+        <%= form.text_field :tag_names %> 
+         <br>
+         <%=form.submit class: 'btn btn-outline-primary' %> 
+        <% end %>
+        <br><br>
+</div>
+<script>
+    $(function(){
+        $('#project_tag_names').selectize({
+            delimeter:',',
+            persist: false,
+            labelField:'name', //Coulmn name in db
+            valueField:'name',//Coulmn name in db
+            searchField:'name',//Coulmn name in db
+            options: <%= Tag.select(:name).to_json(except:[:id]).html_safe %>,
+            create :function(input){
+                return{
+                    name:input
+                }
+            }
+        })
+    })
+</script>

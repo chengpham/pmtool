@@ -1,0 +1,136 @@
+
+<div class="container card" style="max-width: 992px;">
+    <h3><%= @project.title%> </h3>
+    <p><%= @project.description %></p>
+    <p> <%= @project.due_date %></p>
+    <div>
+        Members: <% @project.members.map do |member| %>
+            <span><%= member.user.full_name %></span>
+        <% end %>
+    </div>
+    <% if user_signed_in?  && can?(:crud, @project) %>
+        <%= form_with(model: [@project, @member], local: true) do |f| %>
+        <div>
+        <%= f.text_field :members_name %>
+        <%= f.submit class: 'btn btn-outline-success' %>
+        </div><br>
+        <% end %>
+    <% end %>
+    <div>Tags: 
+        <% @project.tags.each do |tag| %>
+            <%= link_to(tag.name, tag_path(tag.id) ) %>
+        <% end %>
+      </div>
+    <small> Created by: <%= @project.user&.full_name || "DELETED" %> </small>
+    <small style="font-size:0.55em">
+    <p>Last Edited : <%= time_ago_in_words(@project.updated_at)  %> </p>
+    <%= link_to "Edit", edit_project_path(@project.id) %> |
+    <%= link_to "Delete", project_path, method: :delete,data:{confirm: "Are you sure ?"}, style: "color:red"  %>
+    </small>
+    <% if user_signed_in?  && can?(:favourite, @project)%>
+          <% if @favourite %>
+          <%= link_to favourite_path(@favourite), method: :delete do %>
+                <i class="fas fa-star"></i>
+            <% end %>
+            <%#= link_to 'Unfavourite', favourite_path(@favourite), method: :delete %>
+          <% else %>
+            <%= link_to project_favourites_path(@project), method: :post do %>
+                <i class="far fa-star"></i>
+            <% end %>
+            <%#= link_to 'Favourite', project_favourites_path(@project), method: :post %>
+          <% end %>
+      <% end %>
+    <hr>
+    <div class="container-fluid d-flex">
+        <div class='col'>
+            <strong>-- Done --</strong>
+            <% @task_done.each do |done| %>
+            <li>
+            <span><%= done.title %>
+            <small style="font-size:0.55em">
+            - due in: <%= time_ago_in_words(done.due_date) %>
+            <%= link_to "Delete", project_task_path(@project,done), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>   
+            </small>
+            </li>  
+        </span>
+            <% end %>
+        </div>
+        <div class='col'>
+            <strong>-- Not Done --</strong>
+            <% @task_undone.each do |undone| %>
+            <li>
+            <span><%= undone.title %>
+            <small style="font-size:0.55em">
+            - due in: <%= time_ago_in_words(undone.due_date) %>
+            <%= link_to "Complete", project_task_path(@project,undone), method: :patch %> 
+            | <%= link_to "Delete", project_task_path(@project,undone), method: :delete, data:{confirm: "Are you sure ?"}, style: "color:red"  %>
+            </small>
+            </span>
+            </li>
+            <% end %>
+        </div>
+    </div><br>
+
+    <%= form_with(model: [@project, @task], local: true) do |f| %>
+    <div class='d-flex'>
+        <%= f.text_field :title, placeholder: :task, class: "form-control col" %>
+        <%= f.date_field :due_date, class: "form-control col", style: "max-width: 170px"%>
+        <%= f.submit class: 'btn btn-outline-success'%>
+    </div><br>
+    <% end %>
+    <%= form_with(model: [@project, @discussion], local: true) do |f| %>
+    <div>
+        <%= f.text_field :title, placeholder: :title, class: "form-control" %>
+        <%= f.text_area :description, placeholder: :description, class: "form-control" %>
+        <%= f.submit class: 'btn btn-outline-success'%>
+    </div><br>
+    <% end %>
+    <% @discussions.each do |discussion| %>
+    <hr><span class="d-flex">
+    <h5><%= discussion.title %></h5>
+    <small style="font-size:0.55em">
+        <%= link_to "Delete", project_discussion_path(@project,discussion), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red"  %>
+    </small></span>
+    <p> <%= discussion.description %></p>
+    
+    <%= form_with(model: [@project, discussion, @comment], local: true) do |f| %>
+    <div class='d-flex'>
+    <%= f.text_field :body, placeholder: :comments, class: "form-control col" %>
+    <%= f.submit class: 'btn btn-outline-success'%>
+    </div><br>
+    <% end %>
+    <% discussion.comments.each do |c| %>
+    <li><span><%= c.body %> 
+    <small style="font-size:0.55em">
+        comment by <%= c.user&.full_name || "DELETED" %>
+        <%= link_to "Delete", project_discussion_comment_path(@project,discussion,c), method: :delete,data: {confirm: "Are you sure?"}, style: "color:red" %>
+    </small></span></li><br>
+    <% end %>
+    <% end %>
+    <br>
+</div><br><br>
+    
+<script>
+    $(function(){
+        $('#member_members_name').selectize({
+            delimeter:',',
+            persist: false,
+            labelField:'email', //Coulmn name in db
+            valueField:'email',//Coulmn name in db
+            searchField:'email',//Coulmn name in db
+            options: <%= User.select(:email).to_json(except:[:id]).html_safe %>,
+            create :function(input){
+                return{
+                    email:input
+                }
+            }
+        })
+    })
+</script>
+  
+    
+    
+
+    
+
+    
